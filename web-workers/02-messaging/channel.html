@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Web Workers. Messaging basic</title>
+  <style>
+    .brick {
+      width: 100px;
+      height: 100px;
+      background: pink;
+      outline: 1px solid purple;
+      position: relative;
+      margin: 0 0 40px 0;
+      left: 0;
+      right: 0;
+    }
+    .table {
+      width: 100%;
+      display: table;
+    }
+    .table-cell {
+      display: table-cell;
+    }
+  </style>
+</head>
+<body>
+<img src="./giphy.gif" alt="Homer Simpson">
+<div id="brick" class="brick"></div>
+<button id="move-btn">Start moving</button>
+
+<script>
+  const documentWidth = document.body.clientWidth;
+  const brickWidth = brick.clientWidth;
+  const moveBtn = document.getElementById('move-btn');
+
+  moveBtn.addEventListener('click', () => {
+    const moveLeft = () => {
+      requestAnimationFrame(() => {
+        if (brick.offsetLeft + brickWidth < documentWidth) {
+          brick.style.left = `${brick.offsetLeft + 2}px`;
+          requestAnimationFrame(moveLeft);
+        } else {
+          moveRight();
+        }
+      });
+    };
+
+    const moveRight = () => {
+      requestAnimationFrame(() => {
+        if (brick.offsetLeft >= 8) {
+          brick.style.left = `${brick.offsetLeft - 18}px`;
+          requestAnimationFrame(moveRight);
+        } else {
+          moveLeft();
+        }
+      });
+    };
+
+    moveLeft();
+  });
+</script>
+<script>
+  if (window.Worker) {
+    const worker1 = new Worker('./channel-1.js');
+    const worker2 = new Worker('./channel-2.js');
+    const messageChannel = new MessageChannel();
+    const {port1, port2} = messageChannel;
+
+    worker1.addEventListener('message', event => {
+      console.log('Response from WW-1', event, event.data);
+    });
+//
+    worker2.addEventListener('message', event => {
+      console.log('Response from WW-2', event, event.data);
+    });
+
+    worker1.postMessage({type: 'port', port: port1}, [port1]);
+    worker2.postMessage({type: 'port', port: port2}, [port2]);
+
+    worker1.postMessage({type: 'msg', body: 'hi ww 2'});
+//    worker2.postMessage({type: 'msg', body: 'hi ww 1'});
+  }
+</script>
+</body>
+</html>

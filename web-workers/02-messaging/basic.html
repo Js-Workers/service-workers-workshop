@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Web Workers. Messaging basic</title>
+</head>
+<body>
+<script>
+  if (window.Worker) {
+    const worker = new Worker('./worker.js');
+
+    worker.addEventListener('message', event => {
+      const {type, body} = event.data;
+
+      console.error('Response from Worker:', type, body);
+    });
+
+    worker.postMessage({type: 'object', body: {message: 'hi'}});
+  }
+</script>
+</body>
+</html>

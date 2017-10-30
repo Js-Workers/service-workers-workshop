@@ -6,6 +6,7 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Web Workers. Registration</title>
+  <script src="./utils/create-worker.js"></script>
 </head>
 <body>
 <script>
@@ -19,16 +20,23 @@
     console.error('instance3', instance3);
     console.error('instance1 === instance2', instance1 === instance2);
 
-    const workerBody = `self.addEventListener('message', event => {
+    const workerBody1 = `self.addEventListener('message', event => {
       console.error('event', event);
       console.error('self === this', this === self);
       postMessage(event.data);
     });`;
 
-    const blob = new Blob([workerBody]);
+    const blob = new Blob([workerBody1]);
     const instance4 = new Worker(window.URL.createObjectURL(blob));
 
+    const instance5 = createWorker(() => {
+      self.addEventListener('message', event => {
+        console.error('event', event);
+      });
+    });
+
     console.error('instance4', instance4);
+    console.error('instance5', instance5);
   }
 </script>
 </body>
