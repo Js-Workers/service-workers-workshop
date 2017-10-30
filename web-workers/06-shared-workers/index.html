@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shared Workers</title>
+</head>
+<body>
+<script>
+  if (window.Worker && window.SharedWorker) {
+    const sharedWorker = new SharedWorker('./shared-worker.js');
+    const worker1 = new Worker('./worker-1.js');
+    const worker2 = new Worker('./worker-2.js');
+
+    console.error('sharedWorker', sharedWorker);
+    console.error('worker1', worker1);
+    console.error('worker2', worker2);
+
+    console.error('sharedWorker.port', sharedWorker.port);
+
+    sharedWorker.port.onmessage =  e => {
+      console.error('Shared worker: ', e);
+    };
+//    sharedWorker.port.start();
+
+    worker1.postMessage({port: sharedWorker.port}, [sharedWorker.port]);
+//    worker2.postMessage({port: sharedWorker.port}, [sharedWorker.port]);
+
+//    sharedWorker.port.postMessage('some txt');
+
+
+    console.error('sharedWorker.port', sharedWorker.port);
+  }
+</script>
+</body>
+</html>
+
+TODO!
+<!--https://stackoverflow.com/questions/30830000/how-to-call-shared-worker-from-the-web-worker-->
