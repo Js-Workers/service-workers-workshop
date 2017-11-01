@@ -20,6 +20,13 @@
     console.error('instance3', instance3);
     console.error('instance1 === instance2', instance1 === instance2);
 
+    instance3.addEventListener('message', event => {
+      console.error('event', event);
+    });
+
+    instance3.postMessage(1);
+    instance3.postMessage(1);
+
     const workerBody1 = `self.addEventListener('message', event => {
       console.error('event', event);
       console.error('self === this', this === self);
@@ -37,6 +44,8 @@
 
     console.error('instance4', instance4);
     console.error('instance5', instance5);
+    instance5.terminate();
+    instance5.postMessage(123);
   }
 </script>
 </body>
