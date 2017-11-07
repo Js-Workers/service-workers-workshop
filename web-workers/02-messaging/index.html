@@ -51,9 +51,10 @@
     */
 
     const buffer = new ArrayBuffer(8);
-    worker.postMessage(buffer, [buffer]);
 
-    console.error('buffer', buffer.byteLength);
+    console.error('buffer', buffer.byteLength); // 8
+    worker.postMessage(buffer, [buffer]);
+    console.error('buffer', buffer.byteLength); // 0
     console.error('data', data);
   }
 </script>

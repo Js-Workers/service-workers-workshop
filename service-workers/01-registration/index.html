@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker-1.js')
+      .then(registration => {
+        console.error('registration 1', registration);
+        return registration.active;
+      })
+      .then(sw => {
+        console.error('sw === controller', sw === navigator.serviceWorker.controller);
+        sw.postMessage('some message 1');
+      })
+      .catch(error => console.log(error));
+
+
+    navigator.serviceWorker.ready.then(registration => {
+      console.error('riba', registration);
+      registration.active.postMessage('some message 2')
+    });
+
+    console.error('navigator', navigator);
+  }
+</script>
+</body>
+</html>
+

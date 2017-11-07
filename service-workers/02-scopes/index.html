@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker-1.js', {scope: './'})
+      .then(registration => registration.active)
+      .then(sw => sw.postMessage('message to SW 1'))
+      .catch(error => console.log(error));
+
+    navigator.serviceWorker.register('./service-worker-2.js', {scope: './foo'})
+      .then(registration => registration.active)
+      .then(sw => sw.postMessage('message to SW 2'))
+      .catch(error => console.log(error));
+  }
+</script>
+</body>
+</html>
