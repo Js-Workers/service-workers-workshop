@@ -32,12 +32,23 @@
       console.error('data === response', data[type] === body);
     });
 
+    // TODO: example 2
+//    const obj0 = {name: 'obj0'};
+//    const obj1 = {name: 'obj1'};
+//    const obj2 = Object.create(obj1);
+//    obj2.link = obj2;
+//
+//    console.error('obj2', obj2);
+
+    // TODO: example 1
     /* Complex data passed via structured cloning algorithm */
     worker.postMessage({type: 'object', body: data.object});
     worker.postMessage({type: 'array', body: data.array});
     worker.postMessage({type: 'regExp', body: data.regExp});
     worker.postMessage({type: 'blob', body: data.blob});
+    worker.postMessage({type: 'riba', body: obj2});
 
+    // TODO: example 3
     // worker.postMessage({type: 'promise', body: data.promise});
     // worker.postMessage({type: 'window', body: data.window});
     // worker.postMessage({type: 'function', body: data.function});
@@ -46,6 +57,7 @@
     //   worker.postMessage({type: 'response', body: response});
     // });
 
+    // TODO: example 4
     /* Transferrable objects.
       The ArrayBuffer, MessagePort and ImageBitmap types implement this interface
     */
